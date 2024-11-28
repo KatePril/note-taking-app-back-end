@@ -14,7 +14,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id", nullable = false)
-    private Long itemId;
+    private int itemId;
 
     @Column
     private String header;
@@ -23,14 +23,12 @@ public class Item {
     private String text;
 
     @Column
-    @Lob
-    private byte[] image;
+    private String image;
 
     @Column
-    @Lob
-    private byte[] canvas;
+    private String canvas;
 
-    @Column(columnDefinition = "jsonb")
+    @Column
     private String offsets;
 
     @ManyToOne
