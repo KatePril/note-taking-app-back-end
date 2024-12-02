@@ -21,7 +21,7 @@ public class ItemController {
     }
 
     @GetMapping("/{noteId}")
-    public ResponseEntity<?> getItem(@PathVariable int noteId) {
+    public ResponseEntity<?> getItems(@PathVariable int noteId) {
         try {
             Note note = noteService.getNoteById(noteId);
             return ResponseEntity.ok(itemService.getItemsByNote(note));
@@ -43,6 +43,15 @@ public class ItemController {
     public ResponseEntity<?> updateItem(@RequestBody Item item) {
         try {
             return ResponseEntity.ok(itemService.createOrUpdateItem(item));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/item/{itemId}")
+    public ResponseEntity<?> getItem(@PathVariable int itemId) {
+        try {
+            return ResponseEntity.ok(itemService.getItemById(itemId));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }

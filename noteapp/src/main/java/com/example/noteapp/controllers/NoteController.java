@@ -21,7 +21,7 @@ public class NoteController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<?> getNote(@PathVariable int userId) {
+    public ResponseEntity<?> getNotes(@PathVariable int userId) {
         try {
             User user = userService.getUserById(userId);
             return ResponseEntity.ok(noteService.getNotesByUser(user));
