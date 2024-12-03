@@ -60,7 +60,8 @@ public class ItemController {
     @DeleteMapping("/{itemId}")
     public ResponseEntity<?> deleteItem(@PathVariable int itemId) {
         try {
-            return ResponseEntity.ok(itemService.deleteItemById(itemId));
+            itemService.deleteItemById(itemId);
+            return ResponseEntity.ok().build();
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }

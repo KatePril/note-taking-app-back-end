@@ -65,7 +65,8 @@ public class NoteController {
         try {
             Note note = noteService.getNoteById(noteId);
             itemService.deleteItemsByNote(note);
-            return ResponseEntity.ok(noteService.deleteNoteById(noteId));
+            noteService.deleteNoteById(noteId);
+            return ResponseEntity.ok().build();
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }

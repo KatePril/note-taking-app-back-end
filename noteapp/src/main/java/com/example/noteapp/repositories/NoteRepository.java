@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface NoteRepository extends JpaRepository<Note, Long> {
     Iterable<Note> findNotesByUser(User user);
     Note findNoteByNoteId(int id);
-    Note deleteNoteByNoteId(int id);
+    void deleteNoteByNoteId(int id);
 }

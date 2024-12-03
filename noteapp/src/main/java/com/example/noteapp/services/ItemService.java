@@ -3,6 +3,7 @@ package com.example.noteapp.services;
 import com.example.noteapp.entities.Item;
 import com.example.noteapp.entities.Note;
 import com.example.noteapp.repositories.ItemRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,13 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public Iterable<Item> deleteItemsByNote(Note note) {
-        return itemRepository.deleteItemsByNote(note);
+    @Transactional
+    public void deleteItemsByNote(Note note) {
+        itemRepository.deleteItemsByNote(note);
     }
 
-    public Item deleteItemById(int id) {
-        return itemRepository.deleteItemByItemId(id);
+    @Transactional
+    public void deleteItemById(int id) {
+        itemRepository.deleteItemByItemId(id);
     }
 }

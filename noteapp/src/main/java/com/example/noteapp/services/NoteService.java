@@ -3,6 +3,7 @@ package com.example.noteapp.services;
 import com.example.noteapp.entities.Note;
 import com.example.noteapp.entities.User;
 import com.example.noteapp.repositories.NoteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,8 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-    public Note deleteNoteById(int id) {
-        return noteRepository.deleteNoteByNoteId(id);
+    @Transactional
+    public void deleteNoteById(int id) {
+        noteRepository.deleteNoteByNoteId(id);
     }
 }
