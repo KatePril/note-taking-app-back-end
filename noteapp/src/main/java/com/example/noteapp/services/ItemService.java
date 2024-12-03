@@ -26,4 +26,12 @@ public class ItemService {
     public Item createOrUpdateItem(Item item) {
         return itemRepository.save(item);
     }
+
+    public Iterable<Item> deleteItemsByNote(Note note) {
+        return itemRepository.deleteItemsByNote(note);
+    }
+
+    public Item deleteItemById(int id) {
+        return itemRepository.deleteItemByItemId(id);
+    }
 }

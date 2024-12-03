@@ -2,6 +2,7 @@ package com.example.noteapp.controllers;
 
 import com.example.noteapp.entities.Note;
 import com.example.noteapp.entities.User;
+import com.example.noteapp.services.ItemService;
 import com.example.noteapp.services.NoteService;
 import com.example.noteapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class NoteController {
     private final NoteService noteService;
     private final UserService userService;
+    private final ItemService itemService;
 
     @Autowired
-    public NoteController(NoteService noteService, UserService userService) {
+    public NoteController(NoteService noteService, UserService userService, ItemService itemService) {
         this.noteService = noteService;
         this.userService = userService;
+        this.itemService = itemService;
     }
 
     @GetMapping("/{userId}")
@@ -52,6 +55,17 @@ public class NoteController {
     public ResponseEntity<?> updateNote(@RequestBody Note note) {
         try {
             return ResponseEntity.ok(noteService.createOrUpdateNote(note));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{noteId}")
+    public ResponseEntity<?> deleteNote(@PathVariable int noteId) {
+        try {
+            Note note = noteService.getNoteById(noteId);
+            itemService.deleteItemsByNote(note);
+            return ResponseEntity.ok(noteService.deleteNoteById(noteId));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }

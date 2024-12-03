@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     Iterable<Item> findItemsByNote(Note note);
     Item findItemByItemId(int id);
+    Iterable<Item> deleteItemsByNote(Note note);
+    Item deleteItemByItemId(int id);
 }

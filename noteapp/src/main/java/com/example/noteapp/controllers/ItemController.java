@@ -56,4 +56,13 @@ public class ItemController {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
+
+    @DeleteMapping("/{itemId}")
+    public ResponseEntity<?> deleteItem(@PathVariable int itemId) {
+        try {
+            return ResponseEntity.ok(itemService.deleteItemById(itemId));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
 }
