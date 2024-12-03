@@ -2,6 +2,7 @@ package com.example.noteapp.services;
 
 import com.example.noteapp.entities.User;
 import com.example.noteapp.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Integer createUser(User user) throws Exception {
+    public int createOrUpdateUser(User user) throws Exception {
         if (userRepository.existsUserByUsername(user.getUsername())) {
             throw new Exception("User with provided username already exists");
         } else {
@@ -30,7 +31,12 @@ public class UserService {
         return userRepository.findUserByUsername(username);
     }
 
-    public User getUserById(Integer userId) {
+    public User getUserById(int userId) {
         return userRepository.findUserByUserId(userId);
+    }
+
+    @Transactional
+    public void deleteUser(int id) {
+        userRepository.deleteUserByUserId(id);
     }
 }

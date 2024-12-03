@@ -28,7 +28,16 @@ public class UserController {
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody User user) {
         try {
-            return ResponseEntity.ok(userService.createUser(user));
+            return ResponseEntity.ok(userService.createOrUpdateUser(user));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(-1);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok(userService.createOrUpdateUser(user));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(-1);
         }
@@ -40,6 +49,16 @@ public class UserController {
             return ResponseEntity.ok(userService.getUser(username));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(-1);
+        }
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userId) {
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok().build();
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
 }
