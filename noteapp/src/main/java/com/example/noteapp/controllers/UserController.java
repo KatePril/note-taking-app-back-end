@@ -34,10 +34,23 @@ public class UserController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    @PutMapping("/username")
+    public ResponseEntity<?> updateUsername(@RequestBody User updatedUser) {
         try {
+            User user = userService.getUserById(updatedUser.getUserId());
+            user.setUsername(updatedUser.getUsername());
             return ResponseEntity.ok(userService.createOrUpdateUser(user));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<?> updatePassword(@RequestBody User updatedUser) {
+        try {
+            User user = userService.getUserById(updatedUser.getUserId());
+            user.setPassword(updatedUser.getPassword());
+            return ResponseEntity.ok(userService.updatePassword(user));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(-1);
         }
@@ -57,6 +70,24 @@ public class UserController {
         try {
             userService.deleteUser(userId);
             return ResponseEntity.ok().build();
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/password/{userId}")
+    public ResponseEntity<?> getPasswordById(@PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId).getPassword());
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
