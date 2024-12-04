@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class NoteController {
     private final NoteService noteService;
     private final UserService userService;
-    private final ItemService itemService;
 
     @Autowired
-    public NoteController(NoteService noteService, UserService userService, ItemService itemService) {
+    public NoteController(NoteService noteService, UserService userService) {
         this.noteService = noteService;
         this.userService = userService;
-        this.itemService = itemService;
     }
 
     @GetMapping("/{userId}")

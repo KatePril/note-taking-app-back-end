@@ -16,10 +16,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllUsers() {
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getUser(@PathVariable String username) {
         try {
-            return ResponseEntity.ok(userService.getUsers());
+            return ResponseEntity.ok(userService.getUser(username));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(-1);
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/password/{userId}")
+    public ResponseEntity<?> getPasswordById(@PathVariable int userId) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(userId).getPassword());
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
@@ -56,38 +74,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<?> getUser(@PathVariable String username) {
-        try {
-            return ResponseEntity.ok(userService.getUser(username));
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().body(-1);
-        }
-    }
-
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable int userId) {
         try {
             userService.deleteUser(userId);
             return ResponseEntity.ok().build();
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable int userId) {
-        try {
-            return ResponseEntity.ok(userService.getUserById(userId));
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
-    }
-
-    @GetMapping("/password/{userId}")
-    public ResponseEntity<?> getPasswordById(@PathVariable int userId) {
-        try {
-            return ResponseEntity.ok(userService.getUserById(userId).getPassword());
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }

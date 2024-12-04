@@ -6,6 +6,7 @@ import com.example.noteapp.repositories.ItemRepository;
 import com.example.noteapp.repositories.NoteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class NoteService {
     }
 
     public Iterable<Note> getNotesByUser(User user) {
-        return noteRepository.findNotesByUser(user);
+        return noteRepository.findNotesByUser(user, Sort.by(Sort.Order.asc("noteId")));
     }
 
     public Note getNoteById(int id) {

@@ -7,6 +7,7 @@ import com.example.noteapp.repositories.NoteRepository;
 import com.example.noteapp.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,10 +21,6 @@ public class UserService {
         this.userRepository = userRepository;
         this.noteRepository = noteRepository;
         this.itemRepository = itemRepository;
-    }
-
-    public Iterable<User> getUsers() {
-        return userRepository.findAll();
     }
 
     public int createOrUpdateUser(User user) throws Exception {
@@ -49,7 +46,7 @@ public class UserService {
     @Transactional
     public void deleteUser(int id) {
         User user = userRepository.findUserByUserId(id);
-        for (Note note : noteRepository.findNotesByUser(user)) {
+        for (Note note : noteRepository.findNotesByUser(user, Sort.by(Sort.Order.asc("noteId")))) {
             itemRepository.deleteItemsByNote(note);
             noteRepository.delete(note);
         }

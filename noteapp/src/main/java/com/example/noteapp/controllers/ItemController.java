@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/items")
 public class ItemController {
-    private ItemService itemService;
-    private NoteService noteService;
+    private final ItemService itemService;
+    private final NoteService noteService;
 
     @Autowired
     public ItemController(ItemService itemService, NoteService noteService) {
@@ -25,6 +25,15 @@ public class ItemController {
         try {
             Note note = noteService.getNoteById(noteId);
             return ResponseEntity.ok(itemService.getItemsByNote(note));
+        } catch (Exception exception) {
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+
+    @GetMapping("/item/{itemId}")
+    public ResponseEntity<?> getItem(@PathVariable int itemId) {
+        try {
+            return ResponseEntity.ok(itemService.getItemById(itemId));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
@@ -43,15 +52,6 @@ public class ItemController {
     public ResponseEntity<?> updateItem(@RequestBody Item item) {
         try {
             return ResponseEntity.ok(itemService.createOrUpdateItem(item));
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().body(exception.getMessage());
-        }
-    }
-
-    @GetMapping("/item/{itemId}")
-    public ResponseEntity<?> getItem(@PathVariable int itemId) {
-        try {
-            return ResponseEntity.ok(itemService.getItemById(itemId));
         } catch (Exception exception) {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
